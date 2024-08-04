@@ -19,7 +19,7 @@
 
     ```groovy
     dependencies {
-    implementation 'com.github.dxmwl:update_app_online:Tag'
+    implementation 'com.github.dxmwl:update_app_online:1.0'
     }
     ```
 
