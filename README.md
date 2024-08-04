@@ -1,6 +1,11 @@
 # 应用内更新
+[![](https://jitpack.io/v/dxmwl/update_app_online.svg)](https://jitpack.io/#dxmwl/update_app_online)
 
-本项目借助蒲公英分发相关api，封装了一个简单的应用内更新功能，无需让后台开发相关更新接口即可实现应用内更新功能，使用简单，仅需几行代码，即可实现。
+本项目借助蒲公英分发相关api，封装了一个简单的应用内更新功能，无需让后台开发相关更新接口即可实现应用内更新功能，使用简单，仅需几行代码，即可实现。配合- [小蜜蜂传包（已开源）](https://github.com/dxmwl/new_bee_upload_app) 使用效果更佳
+
+## 开发计划
+1. 内置更新弹窗，简单项目无需自行实现或集成三方更新弹窗
+2. 如有需要，实现其他分发平台的功能对接
 
 ## 使用说明
 
@@ -65,6 +70,32 @@
     
     })
     ```
+
+### 相关字段说明
+```java
+    public static class UpdateInfo {
+        /** 蒲公英生成的用于区分历史版本的build号 */
+        public Integer buildBuildVersion = 0;
+        /** 强制更新版本号（未设置强置更新默认为空） */
+        public String forceUpdateVersion = "";
+        /** 强制更新的版本编号 */
+        public String forceUpdateVersionNo = "";
+        /** 是否强制更新 */
+        public Boolean needForceUpdate = false;
+        /** 应用安装地址 */
+        public String downloadURL = "";
+        /** 是否有新版本 */
+        public Boolean buildHaveNewVersion = false;
+        /** 上传包的版本编号，默认为1 (即编译的版本号，一般来说，编译一次会变动一次这个版本号, 在 Android 上叫 Version Code。对于 iOS 来说，是字符串类型；对于 Android 来说是一个整数。例如：1001，28等。) */
+        public String buildVersionNo = "";
+        /** 版本号, 默认为1.0 (是应用向用户宣传时候用到的标识，例如：1.1、8.2.1等。) */
+        public String buildVersion = "";
+        /** 应用短链接 */
+        public String buildShortcutUrl = "";
+        /** 应用更新说明 */
+        public String buildUpdateDescription = "";
+    }
+```
 
 #### 作者的其他项目
 - [友你](https://sj.qq.com/appdetail/com.youni.mobile) 友你是一款征婚交友APP,在这里,你可以把你的真实信息登记下来,系统会根据您的信息,为您匹配最合适的TA,友你集交友、恋爱于一身，通过在线匹配，解决陌生人社交破冰难题，打造更真实的恋爱社区。
