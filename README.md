@@ -2,8 +2,69 @@
 
 本项目借助蒲公英分发相关api，封装了一个简单的应用内更新功能，无需让后台开发相关更新接口即可实现应用内更新功能，使用简单，仅需几行代码，即可实现。
 
+## 使用说明
 
-https://www.pgyer.com/doc/view/api#appUpdate
+1. Add it in your root build.gradle at the end of repositories:
+	```groovy
+        dependencyResolutionManagement {
+        repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+        repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        }
+        }
+    ```
+
+2. Add the dependency
+
+    ```groovy
+    dependencies {
+    implementation 'com.github.dxmwl:update_app_online:Tag'
+    }
+    ```
+
+3. 获取蒲公英的api_key和APPKey，[文档地址](https://www.pgyer.com/doc/view/api#appUpdate)
+
+4. 初始化SDK
+    ```kotlin
+    class MyApp: Application() {
+    
+        override fun onCreate() {
+            super.onCreate()
+            //替换为你自己的api_key和APPKey
+            UpDateApp.init("ede71b84c7e1009fe6bdee737c7dfaf4","5885ac48608e2a0470266d3980484746")
+        }
+    }
+    ```
+5. 检查版本更新，//注意返回结果后要在主线程中执行更新UI的操作
+    ```kotlin
+    UpDateApp.checkUpdate(object : Callback {
+        override fun result(updateInfo: UpdateChecker.UpdateInfo?) {
+            //注意这里要在主线程中执行更新UI的操作
+            runOnUiThread {
+                AlertDialog.Builder(this@MainActivity)
+                                .setTitle("版本更新")
+                        .setMessage(
+                                "是否强制更新：${updateInfo?.needForceUpdate}\n" +
+                                        "应用安装地址：${updateInfo?.downloadURL}\n" +
+                                        "版本号：${updateInfo?.buildVersion}\n" +
+                                        "应用更新说明：${updateInfo?.buildUpdateDescription}"
+                        )
+                        .show()
+            }
+        }
+    
+        override fun error(message: String?) {
+            Log.e(TAG, "error: $message")
+            //注意这里要在主线程中执行更新UI的操作
+            runOnUiThread {
+                Toast.makeText(this@MainActivity, "错误信息：${message}", Toast.LENGTH_SHORT)
+                                .show()
+            }
+        }
+    
+    })
+    ```
 
 #### 作者的其他项目
 - [友你](https://sj.qq.com/appdetail/com.youni.mobile) 友你是一款征婚交友APP,在这里,你可以把你的真实信息登记下来,系统会根据您的信息,为您匹配最合适的TA,友你集交友、恋爱于一身，通过在线匹配，解决陌生人社交破冰难题，打造更真实的恋爱社区。
